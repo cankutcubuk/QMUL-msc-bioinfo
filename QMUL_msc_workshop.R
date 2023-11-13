@@ -9,6 +9,7 @@ library(easylabel)
 library(ComplexHeatmap)
 library(enrichR)
 library(ggplot2)
+library(reshape2)
 
 #################
 ### Load data ###
