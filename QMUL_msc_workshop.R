@@ -25,7 +25,9 @@ all(colnames(rawcounts)==syn_metadata$SampleID)
 rawcounts <- rawcounts[,match(syn_metadata$SampleID, colnames(rawcounts))]
 all(colnames(rawcounts)==syn_metadata$SampleID)
 
+##################
 ### Run DESeq2 ###
+##################
 
 dds  <- DESeqDataSetFromMatrix(rawcounts, colData = syn_metadata, design=~Pathotype)
 dds <- DESeq(dds) 
