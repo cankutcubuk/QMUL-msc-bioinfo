@@ -10,6 +10,7 @@ library(ComplexHeatmap)
 library(enrichR)
 library(ggplot2)
 library(reshape2)
+library(patchwork)
 
 #################
 ### Load data ###
