@@ -16,11 +16,13 @@ library(patchwork)
 ### Load data ###
 #################
 
-load(url("https://raw.githubusercontent.com/cankutcubuk/QMUL-msc-bioinfo/main/msc_peac_data.RData"))
-# load("./msc_peac_data.RData")
+load(url("https://raw.githubusercontent.com/cankutcubuk/QMUL-msc-bioinfo/main/msc_peac_data_small.RData"))
+# load("./msc_peac_data_small.RData")
 ls()
 str(syn_metadata)
 str(rawcounts)
+dim(rawcounts)
+dim(syn_metadata)
 rawcounts[1:5,1:5]
 syn_metadata[1:5,]
 all(colnames(rawcounts)==syn_metadata$SampleID)
@@ -45,9 +47,9 @@ boxplot(split(log2(rawcounts["IGLC2",]+1), syn_metadata$Pathotype))
 dssDF["IGLC2",]
 sapply(split(rawcounts["IGLC2",], syn_metadata$Pathotype), sort)
 
-boxplot(split(log2(rawcounts["MMRN1",]+1), syn_metadata$Pathotype))
-dssDF["MMRN1",]
-sapply(split(rawcounts["MMRN1",], syn_metadata$Pathotype), sort)
+boxplot(split(log2(rawcounts["PLIN4",]+1), syn_metadata$Pathotype))
+dssDF["PLIN4",]
+sapply(split(rawcounts["PLIN4",], syn_metadata$Pathotype), sort)
 
 dssDF$Direction1 <- ifelse(dssDF$log2FoldChange > 0, "Up in Myeloid", "Up in Lymphoid")
 dssDF$Direction2 <- ifelse(dssDF$log2FoldChange > 0, "Down in Lymphoid", "Down in Myeloid")
@@ -58,10 +60,10 @@ dssDF["IGLC2",]
 ### Volcano plot ###
 ####################
 
-easyVolcano(data=dssDF, x = "log2FoldChange", y = "pvalue", output_shiny = F, startLabels = c("IGLC2", "MMRN1"),
+easyVolcano(data=dssDF, x = "log2FoldChange", y = "pvalue", output_shiny = F, startLabels = c("IGLC2", "MMRN1", "PLIN4"),
             fccut = 1, fdrcutoff = 0.05, colScheme=c('darkgrey', 'blue', 'lightblue', 'orange', 'red'), outline_col = NA)
-easyVolcano(data=dssDF, x = "log2FoldChange", y = "pvalue", padj = "padj", output_shiny = F, startLabels = c("IGLC2", "MMRN1","CEMIP"),
-            fccut = 1, fdrcutoff = 0.05, colScheme=c('darkgrey', 'blue', 'lightblue', 'orange', 'red'), outline_col = NA, ylim=c(0,25))
+easyVolcano(data=dssDF, x = "log2FoldChange", y = "pvalue", padj = "padj", output_shiny = F, startLabels = c("IGLC2", "MMRN1","CEMIP","PLIN4"),
+            fccut = 1, fdrcutoff = 0.05, colScheme=c('darkgrey', 'blue', 'lightblue', 'orange', 'red'), outline_col = NA, ylim=c(0,20), xlim=c(-10,10))
 
 dssDF <- dssDF[order(dssDF$padj, decreasing = F),]
 dssDF_p005 <- dssDF[which(dssDF$padj < 0.05),]
